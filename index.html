@@ -1,0 +1,1087 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/do_25aug22_2.js"></script>
+        <script src="data/do_21july22_3.js"></script>
+        <script src="data/do_14jun22_4.js"></script>
+        <script src="data/do_07jun22_5.js"></script>
+        <script src="data/do_23apr22_6.js"></script>
+        <script src="data/do_17apr22_7.js"></script>
+        <script src="data/do_19mar22_8.js"></script>
+        <script src="data/do_13feb22_9.js"></script>
+        <script src="data/ph_25aug22_10.js"></script>
+        <script src="data/ph_21july22_11.js"></script>
+        <script src="data/ph_14jun22_12.js"></script>
+        <script src="data/ph_07jun22_13.js"></script>
+        <script src="data/do_03may21_14.js"></script>
+        <script src="data/survey_16.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:22, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_GoogleMaps_0');
+        map.getPane('pane_GoogleMaps_0').style.zIndex = 400;
+        var layer_GoogleMaps_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleMaps_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 22,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_GoogleMaps_0;
+        map.addLayer(layer_GoogleMaps_0);
+        map.createPane('pane_GoogleSatellite_1');
+        map.getPane('pane_GoogleSatellite_1').style.zIndex = 401;
+        var layer_GoogleSatellite_1 = L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatellite_1',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 22,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_GoogleSatellite_1;
+        map.addLayer(layer_GoogleSatellite_1);
+        function pop_do_25aug22_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_do_25aug22_2_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ดี':
+                    return {
+                pane: 'pane_do_25aug22_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_do_25aug22_2');
+        map.getPane('pane_do_25aug22_2').style.zIndex = 402;
+        map.getPane('pane_do_25aug22_2').style['mix-blend-mode'] = 'normal';
+        var layer_do_25aug22_2 = new L.geoJson(json_do_25aug22_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_do_25aug22_2',
+            layerName: 'layer_do_25aug22_2',
+            pane: 'pane_do_25aug22_2',
+            onEachFeature: pop_do_25aug22_2,
+            style: style_do_25aug22_2_0,
+        });
+        bounds_group.addLayer(layer_do_25aug22_2);
+        map.addLayer(layer_do_25aug22_2);
+        function pop_do_21july22_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_do_21july22_3_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ดี':
+                    return {
+                pane: 'pane_do_21july22_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_do_21july22_3');
+        map.getPane('pane_do_21july22_3').style.zIndex = 403;
+        map.getPane('pane_do_21july22_3').style['mix-blend-mode'] = 'normal';
+        var layer_do_21july22_3 = new L.geoJson(json_do_21july22_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_do_21july22_3',
+            layerName: 'layer_do_21july22_3',
+            pane: 'pane_do_21july22_3',
+            onEachFeature: pop_do_21july22_3,
+            style: style_do_21july22_3_0,
+        });
+        bounds_group.addLayer(layer_do_21july22_3);
+        map.addLayer(layer_do_21july22_3);
+        function pop_do_14jun22_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_do_14jun22_4_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ดี':
+                    return {
+                pane: 'pane_do_14jun22_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_do_14jun22_4');
+        map.getPane('pane_do_14jun22_4').style.zIndex = 404;
+        map.getPane('pane_do_14jun22_4').style['mix-blend-mode'] = 'normal';
+        var layer_do_14jun22_4 = new L.geoJson(json_do_14jun22_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_do_14jun22_4',
+            layerName: 'layer_do_14jun22_4',
+            pane: 'pane_do_14jun22_4',
+            onEachFeature: pop_do_14jun22_4,
+            style: style_do_14jun22_4_0,
+        });
+        bounds_group.addLayer(layer_do_14jun22_4);
+        map.addLayer(layer_do_14jun22_4);
+        function pop_do_07jun22_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_do_07jun22_5_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ดี':
+                    return {
+                pane: 'pane_do_07jun22_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_do_07jun22_5');
+        map.getPane('pane_do_07jun22_5').style.zIndex = 405;
+        map.getPane('pane_do_07jun22_5').style['mix-blend-mode'] = 'normal';
+        var layer_do_07jun22_5 = new L.geoJson(json_do_07jun22_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_do_07jun22_5',
+            layerName: 'layer_do_07jun22_5',
+            pane: 'pane_do_07jun22_5',
+            onEachFeature: pop_do_07jun22_5,
+            style: style_do_07jun22_5_0,
+        });
+        bounds_group.addLayer(layer_do_07jun22_5);
+        map.addLayer(layer_do_07jun22_5);
+        function pop_do_23apr22_6(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_do_23apr22_6_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ดี':
+                    return {
+                pane: 'pane_do_23apr22_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ปานกลาง':
+                    return {
+                pane: 'pane_do_23apr22_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,15,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_do_23apr22_6');
+        map.getPane('pane_do_23apr22_6').style.zIndex = 406;
+        map.getPane('pane_do_23apr22_6').style['mix-blend-mode'] = 'normal';
+        var layer_do_23apr22_6 = new L.geoJson(json_do_23apr22_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_do_23apr22_6',
+            layerName: 'layer_do_23apr22_6',
+            pane: 'pane_do_23apr22_6',
+            onEachFeature: pop_do_23apr22_6,
+            style: style_do_23apr22_6_0,
+        });
+        bounds_group.addLayer(layer_do_23apr22_6);
+        map.addLayer(layer_do_23apr22_6);
+        function pop_do_17apr22_7(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_do_17apr22_7_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ดี':
+                    return {
+                pane: 'pane_do_17apr22_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ปานกลาง':
+                    return {
+                pane: 'pane_do_17apr22_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,15,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ต่ำ':
+                    return {
+                pane: 'pane_do_17apr22_7',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_do_17apr22_7');
+        map.getPane('pane_do_17apr22_7').style.zIndex = 407;
+        map.getPane('pane_do_17apr22_7').style['mix-blend-mode'] = 'normal';
+        var layer_do_17apr22_7 = new L.geoJson(json_do_17apr22_7, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_do_17apr22_7',
+            layerName: 'layer_do_17apr22_7',
+            pane: 'pane_do_17apr22_7',
+            onEachFeature: pop_do_17apr22_7,
+            style: style_do_17apr22_7_0,
+        });
+        bounds_group.addLayer(layer_do_17apr22_7);
+        map.addLayer(layer_do_17apr22_7);
+        function pop_do_19mar22_8(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_do_19mar22_8_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ดี':
+                    return {
+                pane: 'pane_do_19mar22_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ปานกลาง':
+                    return {
+                pane: 'pane_do_19mar22_8',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,15,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_do_19mar22_8');
+        map.getPane('pane_do_19mar22_8').style.zIndex = 408;
+        map.getPane('pane_do_19mar22_8').style['mix-blend-mode'] = 'normal';
+        var layer_do_19mar22_8 = new L.geoJson(json_do_19mar22_8, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_do_19mar22_8',
+            layerName: 'layer_do_19mar22_8',
+            pane: 'pane_do_19mar22_8',
+            onEachFeature: pop_do_19mar22_8,
+            style: style_do_19mar22_8_0,
+        });
+        bounds_group.addLayer(layer_do_19mar22_8);
+        map.addLayer(layer_do_19mar22_8);
+        function pop_do_13feb22_9(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_do_13feb22_9_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ดี':
+                    return {
+                pane: 'pane_do_13feb22_9',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_do_13feb22_9');
+        map.getPane('pane_do_13feb22_9').style.zIndex = 409;
+        map.getPane('pane_do_13feb22_9').style['mix-blend-mode'] = 'normal';
+        var layer_do_13feb22_9 = new L.geoJson(json_do_13feb22_9, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_do_13feb22_9',
+            layerName: 'layer_do_13feb22_9',
+            pane: 'pane_do_13feb22_9',
+            onEachFeature: pop_do_13feb22_9,
+            style: style_do_13feb22_9_0,
+        });
+        bounds_group.addLayer(layer_do_13feb22_9);
+        map.addLayer(layer_do_13feb22_9);
+        function pop_ph_25aug22_10(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ph_25aug22_10_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ไม่เหมาะสม':
+                    return {
+                pane: 'pane_ph_25aug22_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'เหมาะสม':
+                    return {
+                pane: 'pane_ph_25aug22_10',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ph_25aug22_10');
+        map.getPane('pane_ph_25aug22_10').style.zIndex = 410;
+        map.getPane('pane_ph_25aug22_10').style['mix-blend-mode'] = 'normal';
+        var layer_ph_25aug22_10 = new L.geoJson(json_ph_25aug22_10, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ph_25aug22_10',
+            layerName: 'layer_ph_25aug22_10',
+            pane: 'pane_ph_25aug22_10',
+            onEachFeature: pop_ph_25aug22_10,
+            style: style_ph_25aug22_10_0,
+        });
+        bounds_group.addLayer(layer_ph_25aug22_10);
+        map.addLayer(layer_ph_25aug22_10);
+        function pop_ph_21july22_11(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ph_21july22_11_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ไม่เหมาะสม':
+                    return {
+                pane: 'pane_ph_21july22_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'เหมาะสม':
+                    return {
+                pane: 'pane_ph_21july22_11',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ph_21july22_11');
+        map.getPane('pane_ph_21july22_11').style.zIndex = 411;
+        map.getPane('pane_ph_21july22_11').style['mix-blend-mode'] = 'normal';
+        var layer_ph_21july22_11 = new L.geoJson(json_ph_21july22_11, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ph_21july22_11',
+            layerName: 'layer_ph_21july22_11',
+            pane: 'pane_ph_21july22_11',
+            onEachFeature: pop_ph_21july22_11,
+            style: style_ph_21july22_11_0,
+        });
+        bounds_group.addLayer(layer_ph_21july22_11);
+        map.addLayer(layer_ph_21july22_11);
+        function pop_ph_14jun22_12(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ph_14jun22_12_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ไม่เหมาะสม':
+                    return {
+                pane: 'pane_ph_14jun22_12',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'เหมาะสม':
+                    return {
+                pane: 'pane_ph_14jun22_12',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ph_14jun22_12');
+        map.getPane('pane_ph_14jun22_12').style.zIndex = 412;
+        map.getPane('pane_ph_14jun22_12').style['mix-blend-mode'] = 'normal';
+        var layer_ph_14jun22_12 = new L.geoJson(json_ph_14jun22_12, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ph_14jun22_12',
+            layerName: 'layer_ph_14jun22_12',
+            pane: 'pane_ph_14jun22_12',
+            onEachFeature: pop_ph_14jun22_12,
+            style: style_ph_14jun22_12_0,
+        });
+        bounds_group.addLayer(layer_ph_14jun22_12);
+        map.addLayer(layer_ph_14jun22_12);
+        function pop_ph_07jun22_13(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ph_07jun22_13_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ไม่เหมาะสม':
+                    return {
+                pane: 'pane_ph_07jun22_13',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,0,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'เหมาะสม':
+                    return {
+                pane: 'pane_ph_07jun22_13',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ph_07jun22_13');
+        map.getPane('pane_ph_07jun22_13').style.zIndex = 413;
+        map.getPane('pane_ph_07jun22_13').style['mix-blend-mode'] = 'normal';
+        var layer_ph_07jun22_13 = new L.geoJson(json_ph_07jun22_13, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ph_07jun22_13',
+            layerName: 'layer_ph_07jun22_13',
+            pane: 'pane_ph_07jun22_13',
+            onEachFeature: pop_ph_07jun22_13,
+            style: style_ph_07jun22_13_0,
+        });
+        bounds_group.addLayer(layer_ph_07jun22_13);
+        map.addLayer(layer_ph_07jun22_13);
+        function pop_do_03may21_14(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRIDCODE</th>\
+                        <td>' + (feature.properties['GRIDCODE'] !== null ? autolinker.link(feature.properties['GRIDCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">details</th>\
+                        <td>' + (feature.properties['details'] !== null ? autolinker.link(feature.properties['details'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_do_03may21_14_0(feature) {
+            switch(String(feature.properties['details'])) {
+                case 'ดี':
+                    return {
+                pane: 'pane_do_03may21_14',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,98,45,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'ปานกลาง':
+                    return {
+                pane: 'pane_do_03may21_14',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,15,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_do_03may21_14');
+        map.getPane('pane_do_03may21_14').style.zIndex = 414;
+        map.getPane('pane_do_03may21_14').style['mix-blend-mode'] = 'normal';
+        var layer_do_03may21_14 = new L.geoJson(json_do_03may21_14, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_do_03may21_14',
+            layerName: 'layer_do_03may21_14',
+            pane: 'pane_do_03may21_14',
+            onEachFeature: pop_do_03may21_14,
+            style: style_do_03may21_14_0,
+        });
+        bounds_group.addLayer(layer_do_03may21_14);
+        map.addLayer(layer_do_03may21_14);
+        map.createPane('pane_do_03may21_15');
+        map.getPane('pane_do_03may21_15').style.zIndex = 415;
+        var img_do_03may21_15 = 'data/do_03may21_15.png';
+        var img_bounds_do_03may21_15 = [[19.143828439072283,99.85380269223037],[19.201952914305647,99.91459431487233]];
+        var layer_do_03may21_15 = new L.imageOverlay(img_do_03may21_15,
+                                              img_bounds_do_03may21_15,
+                                              {pane: 'pane_do_03may21_15'});
+        bounds_group.addLayer(layer_do_03may21_15);
+        map.addLayer(layer_do_03may21_15);
+        function pop_survey_16(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Name</th>\
+                        <td>' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['E'] !== null ? autolinker.link(feature.properties['E'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['N'] !== null ? autolinker.link(feature.properties['N'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Name_Area</th>\
+                        <td>' + (feature.properties['Name_Area'] !== null ? autolinker.link(feature.properties['Name_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_survey_16_0() {
+            return {
+                pane: 'pane_survey_16',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,145,255,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_survey_16');
+        map.getPane('pane_survey_16').style.zIndex = 416;
+        map.getPane('pane_survey_16').style['mix-blend-mode'] = 'normal';
+        var layer_survey_16 = new L.geoJson(json_survey_16, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_survey_16',
+            layerName: 'layer_survey_16',
+            pane: 'pane_survey_16',
+            onEachFeature: pop_survey_16,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_survey_16_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_survey_16);
+        map.addLayer(layer_survey_16);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/survey_16.png" /> survey': layer_survey_16,"do_03may21": layer_do_03may21_15,'do_03may21<br /><table><tr><td style="text-align: center;"><img src="legend/do_03may21_14_ด0.png" /></td><td>ดี</td></tr><tr><td style="text-align: center;"><img src="legend/do_03may21_14_ปานกลาง1.png" /></td><td>ปานกลาง</td></tr></table>': layer_do_03may21_14,'ph_07jun22<br /><table><tr><td style="text-align: center;"><img src="legend/ph_07jun22_13_ไมเหมาะสม0.png" /></td><td>ไม่เหมาะสม</td></tr><tr><td style="text-align: center;"><img src="legend/ph_07jun22_13_เหมาะสม1.png" /></td><td>เหมาะสม</td></tr></table>': layer_ph_07jun22_13,'ph_14jun22<br /><table><tr><td style="text-align: center;"><img src="legend/ph_14jun22_12_ไมเหมาะสม0.png" /></td><td>ไม่เหมาะสม</td></tr><tr><td style="text-align: center;"><img src="legend/ph_14jun22_12_เหมาะสม1.png" /></td><td>เหมาะสม</td></tr></table>': layer_ph_14jun22_12,'ph_21july22<br /><table><tr><td style="text-align: center;"><img src="legend/ph_21july22_11_ไมเหมาะสม0.png" /></td><td>ไม่เหมาะสม</td></tr><tr><td style="text-align: center;"><img src="legend/ph_21july22_11_เหมาะสม1.png" /></td><td>เหมาะสม</td></tr></table>': layer_ph_21july22_11,'ph_25aug22<br /><table><tr><td style="text-align: center;"><img src="legend/ph_25aug22_10_ไมเหมาะสม0.png" /></td><td>ไม่เหมาะสม</td></tr><tr><td style="text-align: center;"><img src="legend/ph_25aug22_10_เหมาะสม1.png" /></td><td>เหมาะสม</td></tr></table>': layer_ph_25aug22_10,'do_13feb22<br /><table><tr><td style="text-align: center;"><img src="legend/do_13feb22_9_ด0.png" /></td><td>ดี</td></tr></table>': layer_do_13feb22_9,'do_19mar22<br /><table><tr><td style="text-align: center;"><img src="legend/do_19mar22_8_ด0.png" /></td><td>ดี</td></tr><tr><td style="text-align: center;"><img src="legend/do_19mar22_8_ปานกลาง1.png" /></td><td>ปานกลาง</td></tr></table>': layer_do_19mar22_8,'do_17apr22<br /><table><tr><td style="text-align: center;"><img src="legend/do_17apr22_7_ด0.png" /></td><td>ดี</td></tr><tr><td style="text-align: center;"><img src="legend/do_17apr22_7_ปานกลาง1.png" /></td><td>ปานกลาง</td></tr><tr><td style="text-align: center;"><img src="legend/do_17apr22_7_ตำ2.png" /></td><td>ต่ำ</td></tr></table>': layer_do_17apr22_7,'do_23apr22<br /><table><tr><td style="text-align: center;"><img src="legend/do_23apr22_6_ด0.png" /></td><td>ดี</td></tr><tr><td style="text-align: center;"><img src="legend/do_23apr22_6_ปานกลาง1.png" /></td><td>ปานกลาง</td></tr></table>': layer_do_23apr22_6,'do_07jun22<br /><table><tr><td style="text-align: center;"><img src="legend/do_07jun22_5_ด0.png" /></td><td>ดี</td></tr></table>': layer_do_07jun22_5,'do_14jun22<br /><table><tr><td style="text-align: center;"><img src="legend/do_14jun22_4_ด0.png" /></td><td>ดี</td></tr></table>': layer_do_14jun22_4,'do_21july22<br /><table><tr><td style="text-align: center;"><img src="legend/do_21july22_3_ด0.png" /></td><td>ดี</td></tr></table>': layer_do_21july22_3,'do_25aug22<br /><table><tr><td style="text-align: center;"><img src="legend/do_25aug22_2_ด0.png" /></td><td>ดี</td></tr></table>': layer_do_25aug22_2,"Google Satellite": layer_GoogleSatellite_1,"Google Maps": layer_GoogleMaps_0,}).addTo(map);
+        setBounds();
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        </script>
+    </body>
+</html>
